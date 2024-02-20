@@ -1,0 +1,27 @@
+pipeline {
+   agent any
+      stages {
+        stage ('Clone branchs') {
+           steps {
+               echo 'Cloning'
+               git branch: 'main', url: 'https://github.com/skhitrovo/CICD'
+            }
+        } 
+        stage('Test') {
+            steps {
+                 echo 'Test'
+            }
+        }   
+        stage('Docker Build') {
+            steps {
+                 sh 'docker build -t nodemain:v1.0 .'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)'
+                sh 'docker run -d --expose 3000 -p 3000:3000 nodemain:v1.0'
+            }
+        }
+    }
+}
