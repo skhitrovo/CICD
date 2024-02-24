@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage("git checkout") {
             steps {
-                git branch: "${branch}", credentialsId: dd3f31f9-55b8-4339-988e-6c508fad2a93
+                git branch: "${branch}", credentialsId: 'dd3f31f9-55b8-4339-988e-6c508fad2a93'
             }
         }
         stage("build") {
