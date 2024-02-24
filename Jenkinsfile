@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        NODEJS_HOME = tool name: 'NodeJS', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+        NODEJS_HOME = "${tool name: 'NodeJS 7.8.0', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'}"
     }
 
     stages {
@@ -17,7 +17,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    def nodeHome = tool 'NodeJS'
+                    def nodeHome = tool 'NodeJS 7.8.0'
                     env.PATH = "${nodeHome}/bin:${env.PATH}"
                     sh 'node --version'
                 }
