@@ -10,19 +10,6 @@ pipeline {
             }
         }
 
-    tools {
-         nodejs 'NodeJs'
-    }
-
-    stages {
-        stage('Declarative Tool Install') {
-            steps {
-                sh 'node --version'
-            }
-        }
-    }
-}
-
         stage('Build') {
             steps {
                 sh './scripts/build.sh'
@@ -41,15 +28,6 @@ pipeline {
             }
         }
 
-        stage('Scan Docker Image for Vulnerabilities') {
-            steps {
-                script {
-                    def vulnerabilities = sh(script: "trivy image --exit-code 0 --severity HIGH,MEDIUM,LOW --no-progress myapp:${BUILD_ID}", returnStdout: true).trim()
-                    echo "Vulnerability Report:\n${vulnerabilities}"
-                }
-            }
-        }
-
         stage('Deploy') {
             steps {
                 script {
@@ -64,3 +42,4 @@ pipeline {
 
     }
 }
+
