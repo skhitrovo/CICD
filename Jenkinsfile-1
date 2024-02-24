@@ -1,10 +1,11 @@
 pipeline {
-  agent none
+  agent any
   stages {
-    stage('Example Deploy') {
-      agent {
-        label 'linux'
+    stage('Example Build') {
+      steps {
+        sh 'echo Hello World'
       }
+    }
     stage('Example Deploy') {
       when {
         branch 'main'
