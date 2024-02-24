@@ -1,0 +1,68 @@
+pipeline {
+    agent any
+    
+    environment {
+      branch = "main"
+    }
+
+    tools {
+        nodejs 'nodejs'
+    }
+    stages {
+        stage("git checkout") {
+            steps {
+                git branch: "${branch}", credentialsId: dd3f31f9-55b8-4339-988e-6c508fad2a93
+            }
+        }
+        stage("build") {
+            when {
+                expression { branch == 'main' }
+            }
+            steps {
+                echo 'start building the application'
+                sh 'npm install'
+                echo 'finished building the application'
+            }
+        }
+        stage("test") {
+            when {
+               expression { branch == 'dev' }
+            }
+            steps {
+                echo 'start testing the application'
+                sh 'npm test'
+                echo 'finished testing the application'
+            }
+        }
+        stage("docker build") {
+            steps {
+                script {
+                    if ("${branch}" == 'main') {
+                        sh "echo main"
+                        sh "docker build -t nodemain:${BUILD_NUMBER} ."
+                    } else if ("${branch}" == 'dev') {
+                        sh "echo dev"
+                        sh "docker build -t nodedev:${BUILD_NUMBER} ."
+                    }
+                }
+            }
+        }
+        stage("deploy") {
+            steps {
+                script {
+                    if ("${branch}" == 'main') {
+                        sh "docker stop nodemain_container  true"
+                        sh "docker rm nodemain_container  true"
+                        sh "docker run --name nodemain_container -d --expose 3000 -p 3000:3000 nodemain:${BUILD_NUMBER}"
+                        sh "docker rmi -f nodemain:${BUILD_NUMBER}  true"
+                    } else if ("${branch}" == 'dev') {
+                        sh "docker stop nodedev_container  true"
+                        sh "docker rm nodedev_container  true"
+                        sh "docker run --name nodedev_container -d --expose 3001 -p 3001:3000 nodedev:${BUILD_NUMBER}"
+                        sh "docker rmi -f nodedev:${BUILD_NUMBER}  true"
+                    }
+                }
+            }
+        }
+    }
+}
