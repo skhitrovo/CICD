@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        NODEJS_HOME = tool name: 'NodeJS', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -8,10 +12,6 @@ pipeline {
                     checkout scm
                 }
             }
-        }
-
-        environment {
-            NODEJS_HOME = tool name: 'NodeJS', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
         }
 
         stage('Build') {
