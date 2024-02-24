@@ -23,6 +23,7 @@ pipeline {
                 sh 'npm test'
                 echo 'test end'
             }
+        }
         
         stage("docker build") {
             steps {
