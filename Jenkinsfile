@@ -10,11 +10,20 @@ pipeline {
             }
         }
 
+    tools {
+        // Указываем инструмент установки Node.js
+        nodejs 'NodeJs'
+    }
+
+    stages {
         stage('Declarative Tool Install') {
             steps {
-                tool name: 'NodeJs', type: 'nodejs'
+                // Убедитесь, что инструмент Node.js используется как nodejs, а не NodeJs
+                sh 'node --version'
             }
         }
+    }
+}
 
         stage('Build') {
             steps {
