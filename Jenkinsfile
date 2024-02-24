@@ -10,21 +10,6 @@ pipeline {
             }
         }
 
-    tools {
-        // Указываем инструмент установки Node.js
-        nodejs 'NodeJs'
-    }
-
-    stages {
-        stage('Declarative Tool Install') {
-            steps {
-                // Убедитесь, что инструмент Node.js используется как nodejs, а не NodeJs
-                sh 'node --version'
-            }
-        }
-    }
-}
-
         stage('Build') {
             steps {
                 sh './scripts/build.sh'
@@ -40,15 +25,6 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t myapp:${BUILD_ID} .'
-            }
-        }
-
-        stage('Scan Docker Image for Vulnerabilities') {
-            steps {
-                script {
-                    def vulnerabilities = sh(script: "trivy image --exit-code 0 --severity HIGH,MEDIUM,LOW --no-progress myapp:${BUILD_ID}", returnStdout: true).trim()
-                    echo "Vulnerability Report:\n${vulnerabilities}"
-                }
             }
         }
 
