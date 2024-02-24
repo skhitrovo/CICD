@@ -4,12 +4,6 @@ pipeline {
         nodejs 'nodejs'
     }
     stages {
-pipeline {
-    agent any
-    tools {
-        nodejs 'nodejs'
-    }
-    stages {
         stage("build") {
             when {
                 branch 'main'
