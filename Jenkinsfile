@@ -10,11 +10,10 @@ pipeline {
             }
         }
 
-            environment {
-        NODEJS_HOME = tool name: 'NodeJS', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
-    }
+        environment {
+            NODEJS_HOME = tool name: 'NodeJS', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+        }
 
-    stages {
         stage('Build') {
             steps {
                 script {
@@ -23,16 +22,13 @@ pipeline {
                     sh 'node --version'
                 }
             }
+        }
 
-        stage('Build') {
+        stage('Build and Test') {
             steps {
                 sh 'chmod +x scripts/build.sh'
                 sh './scripts/build.sh'
-            }
-        }
-
-        stage('Test') {
-            steps {
+                
                 sh 'chmod +x scripts/test.sh'
                 sh './scripts/test.sh'
             }
@@ -55,7 +51,5 @@ pipeline {
                 }
             }
         }
-
     }
 }
-
