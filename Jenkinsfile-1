@@ -5,9 +5,10 @@ pipeline {
       agent {
         label 'linux'
       }
+    stage('Example Deploy') {
       when {
-        beforeAgent true
         branch 'main'
+        environment name: 'DEPLOY_TO', value: 'production'
       }
       steps {
         sh 'echo Deploying'
