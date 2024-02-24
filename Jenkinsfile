@@ -10,11 +10,18 @@ pipeline {
             }
         }
 
+    tools {
+         nodejs 'NodeJs'
+    }
+
+    stages {
         stage('Declarative Tool Install') {
             steps {
-                tool name: 'NodeJs', type: 'nodejs'
+                sh 'node --version'
             }
         }
+    }
+}
 
         stage('Build') {
             steps {
