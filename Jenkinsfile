@@ -10,6 +10,20 @@ pipeline {
             }
         }
 
+            environment {
+        NODEJS_HOME = tool name: 'NodeJS', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    def nodeHome = tool 'NodeJS'
+                    env.PATH = "${nodeHome}/bin:${env.PATH}"
+                    sh 'node --version'
+                }
+            }
+
         stage('Build') {
             steps {
                 sh 'chmod +x scripts/build.sh'
@@ -44,3 +58,4 @@ pipeline {
 
     }
 }
+
