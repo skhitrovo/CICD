@@ -10,9 +10,6 @@ pipeline {
             }
         }
         stage("build") {
-            when {
-                branch 'main'
-            }
             steps {
                 echo 'app build'
                 sh 'npm install'
@@ -20,9 +17,6 @@ pipeline {
             }
         }
         stage("test") {
-            when {
-                branch 'dev'
-            }
             steps {
                 echo 'app test'
                 sh 'npm test'
