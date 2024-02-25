@@ -24,7 +24,7 @@ pipeline {
                 echo 'test end'
             }
         }
-
+        
         stage("docker build") {
             steps {
                 script {
