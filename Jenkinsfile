@@ -4,6 +4,11 @@ pipeline {
         nodejs 'nodejs'
     }
     stages {
+        stage('Checkout') {
+            steps {
+                git branch: "${env.BRANCH_NAME}", url: 'https://github.com/skhitrovo/CICD'
+            }
+        }
         stage("build") {
             when {
                 branch 'main'
